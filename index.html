@@ -152,6 +152,7 @@
       <ul class="talks" id="fall-schedule">
         <li data-date="2026-10-05"><span class="t-date">Oct 05</span><span class="t-who">Zohaib Khan</span> &#x2014; <span class="t-topic"><a href="https://aclanthology.org/2026.acl-long.695/">To Lie or Not to Lie? Investigating The Biased Spread of Global Lies by LLMs</a> <span class="t-aff">(ACL 2026)</span></span></li>
         <li class="t-break"><span class="t-date">Oct 19</span><span class="t-note">No meeting (Fall Study Break)</span></li>
+        <li data-date="2026-11-16" data-time="17:00" data-where="Zoom (link in the group email)"><span class="t-date">Nov 16</span><span class="t-who">Jonathan Kummerfeld <span class="t-aff">(University of Sydney)</span></span> &#x2014; <span class="t-topic"><span class="t-note">topic TBA</span></span> <span class="t-aff">&#xB7; 5:00 PM ET, Zoom</span></li>
         <li data-date="2026-11-23"><span class="t-date">Nov 23</span><span class="t-who">Kaiser Sun <span class="t-aff">(JHU)</span></span> &#x2014; <span class="t-topic"><span class="t-note">topic TBA</span></span></li>
       </ul>
     </section>
@@ -294,7 +295,8 @@
   })();
 
   // Next session: the first dated item in #fall-schedule that has not ended yet.
-  // Times are US Eastern; a <li data-time="17:00"> overrides the default 11:00 start.
+  // Times are US Eastern; a <li data-time="17:00"> overrides the default 11:00 start,
+  // and data-where="..." replaces the default hybrid location (e.g. evening Zoom-only talks).
   (function () {
     var PLACE = 'Leinweber 4526, 2200 Hayward St, Ann Arbor, MI 48109';
     var SITE = 'https://lit.eecs.umich.edu/nlp-reading-group/';
@@ -345,6 +347,8 @@
     next.classList.add('is-next');
 
     var who = next.querySelector('.t-who'), topic = next.querySelector('.t-topic');
+    var where = next.getAttribute('data-where');
+    if (where) card.querySelector('.next-where').textContent = where;
     var weekday = new Date(Date.UTC(s.y, s.m, s.d)).getUTCDay();
     document.getElementById('next-when').textContent = DAYS[weekday] + ', ' + MONTHS[s.m] + ' ' + s.d +
       ' · ' + clock(s.h, s.min) + '–' + clock(s.h + 1, s.min) + ' ET';
@@ -356,12 +360,12 @@
     if (who) details.push(who.textContent.trim() + ' — ' + (topic ? topic.textContent.trim() : 'topic TBA'));
     var paper = topic && topic.querySelector('a');
     if (paper) details.push('Paper: ' + paper.href);
-    details.push('Hybrid: Leinweber 4526 and Zoom (link in the group email).', 'Schedule: ' + SITE);
+    details.push(where ? where + '.' : 'Hybrid: Leinweber 4526 and Zoom (link in the group email).', 'Schedule: ' + SITE);
     document.getElementById('next-cal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
       '&text=' + encodeURIComponent(title) +
       '&dates=' + stamp(s.start) + '/' + stamp(s.end) +
       '&details=' + encodeURIComponent(details.join('\n')) +
-      '&location=' + encodeURIComponent(PLACE);
+      '&location=' + encodeURIComponent(where ? 'Zoom' : PLACE);
   })();
 </script>
 
